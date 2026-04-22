@@ -5,58 +5,61 @@
     <title>Babylon Select - 蘇資晉</title>
     <script src="https://cdn.babylonjs.com/viewer/babylon.viewer.js"></script>
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; padding: 20px; }
-        .menu { margin-bottom: 15px; }
-        select { padding: 8px; font-size: 16px; cursor: pointer; }
+        body { font-family: "Microsoft JhengHei", sans-serif; padding: 20px; background-color: #f0f0f0; }
+        .menu { margin-bottom: 15px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        select { padding: 10px; font-size: 16px; cursor: pointer; border-radius: 4px; border: 1px solid #ccc; }
         /* 設定 3D 展示視窗 */
         babylon {
             width: 100%;
             height: 600px;
             display: block;
             border: 2px solid #333;
-            background-color: #eee;
+            background-color: #333; /* 背景深色一點 3D 比較明顯 */
         }
     </style>
 </head>
 <body>
 
     <div class="menu">
-        <a href="index.html">← 返回首頁</a>
-        <h1>模型切換展示</h1>
-        <p>學號：113213069 | 姓名：蘇資晉</p>
+        <a href="index.html" style="text-decoration: none; color: #007bff;">← 返回首頁</a>
+        
         
         <label for="modelSelect">請選擇模型：</label>
         <select id="modelSelect">
-            <option value="113213069.glb">學號模型 (三角錐)</option>
-            <option value="my_model.glb">我的整合模型 (戰士)</option>
+            <option value="https://raw.githubusercontent.com/s113213069-maker/project3/main/113213069.glb">學號模型 (三角錐)</option>
+            <option value="https://raw.githubusercontent.com/s113213069-maker/project3/main/my_model.glb">我的整合模型 (戰士)</option>
         </select>
     </div>
 
     <babylon id="myViewer" 
              extends-behavior="true" 
-             templates.main.params.show-animation-bar="true">
+             templates.main.params.show-animation-bar="true"
+             telemetry="false">
     </babylon>
 
     <script>
         const modelSelect = document.getElementById('modelSelect');
         
-        // 當下拉選單改變時執行
+        // 當選單改變時，呼叫 Babylon API 切換模型
         modelSelect.addEventListener('change', function() {
-            const selectedModel = this.value;
+            const selectedUrl = this.value;
+            console.log("切換模型至: " + selectedUrl);
             
-            // 取得 Babylon Viewer 實例並載入新模型
             BabylonViewer.viewerManager.getViewerById('myViewer').loadModel({
-                url: selectedModel
+                url: selectedUrl
             });
         });
 
-        // 頁面載入時，先預設載入第一個模型
+        // 頁面初次載入，自動讀取目前選單預設的網址
         window.onload = function() {
             setTimeout(() => {
-                BabylonViewer.viewerManager.getViewerById('myViewer').loadModel({
-                    url: modelSelect.value
-                });
-            }, 500);
+                const viewer = BabylonViewer.viewerManager.getViewerById('myViewer');
+                if (viewer) {
+                    viewer.loadModel({
+                        url: modelSelect.value
+                    });
+                }
+            }, 500); // 給瀏覽器 0.5 秒準備腳本
         };
     </script>
 
