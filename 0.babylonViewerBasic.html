@@ -7,34 +7,21 @@
     <style>
         body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; }
         .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        /* 確保展示視窗顯示出來 */
         babylon { width: 100%; height: 600px; display: block; border: 1px solid #333; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Babylon Viewer 基礎展示 (根目錄版)</h1>
+        <h1>Babylon Viewer 基礎展示 (遠端直連版)</h1>
         <p>學號：113213069 | 姓名：蘇資晉</p>
 
-        <babylon id="basicViewer" 
-                 model="113213069.glb" 
+        <babylon model="https://raw.githubusercontent.com/s113213069-maker/project3/main/113213069.glb" 
                  extends-behavior="true"
                  telemetry="false">
         </babylon>
     </div>
-
-    <script>
-        window.onload = function() {
-            const viewer = BabylonViewer.viewerManager.getViewerById('basicViewer');
-            // 如果本地抓不到，就抓 GitHub 的 Raw 網址 (我也幫你把網址裡的 models/ 拿掉了)
-            viewer.onModelErrorObservable.add((error) => {
-                console.log("偵測到載入失敗，切換為遠端連結...");
-                viewer.loadModel({
-                    url: "https://raw.githubusercontent.com/s113213069-maker/project3/main/113213069.glb"
-                });
-            });
-        };
-    </script>
 
 </body>
 </html>
