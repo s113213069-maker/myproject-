@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Babylon Select - 蘇資晉</title>
+    <script src="https://cdn.babylonjs.com/viewer/babylon.viewer.js"></script>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; padding: 20px; }
+        .menu { margin-bottom: 15px; }
+        select { padding: 8px; font-size: 16px; cursor: pointer; }
+        /* 設定 3D 展示視窗 */
+        babylon {
+            width: 100%;
+            height: 600px;
+            display: block;
+            border: 2px solid #333;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu">
+        <a href="index.html">← 返回首頁</a>
+        <h1>模型切換展示</h1>
+        <p>學號：113213069 | 姓名：蘇資晉</p>
+        
+        <label for="modelSelect">請選擇模型：</label>
+        <select id="modelSelect">
+            <option value="./models/113213069.glb">學號模型 (三角錐)</option>
+            <option value="./models/my_model.glb">我的整合模型 (戰士)</option>
+        </select>
+    </div>
+
+    <babylon id="myViewer" 
+             extends-behavior="true" 
+             templates.main.params.show-animation-bar="true">
+    </babylon>
+
+    <script>
+        const modelSelect = document.getElementById('modelSelect');
+        
+        // 當下拉選單改變時執行
+        modelSelect.addEventListener('change', function() {
+            const selectedModel = this.value;
+            
+            // 取得 Babylon Viewer 實例並載入新模型
+            BabylonViewer.viewerManager.getViewerById('myViewer').loadModel({
+                url: selectedModel
+            });
+        });
+
+        // 頁面載入時，先預設載入第一個模型
+        window.onload = function() {
+            setTimeout(() => {
+                BabylonViewer.viewerManager.getViewerById('myViewer').loadModel({
+                    url: modelSelect.value
+                });
+            }, 500);
+        };
+    </script>
+
+</body>
+</html>
