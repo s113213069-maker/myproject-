@@ -2,23 +2,19 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Babylon Basic - 113213069 蘇資晉</title>
     <script src="https://cdn.babylonjs.com/viewer/babylon.viewer.js"></script>
     <style>
         body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        /* 確保展示視窗比例正確 */
-        babylon { width: 100%; height: 600px; display: block; border: 1px solid #333; margin-top: 15px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        babylon { width: 100%; height: 600px; display: block; border: 1px solid #333; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <a href="index.html" style="text-decoration: none; color: #007bff;">← 返回首頁</a>
-        <h1>Babylon Viewer 基礎展示</h1>
+        <h1>Babylon Viewer 基礎展示 (根目錄版)</h1>
         <p>學號：113213069 | 姓名：蘇資晉</p>
-        <p style="color: gray; font-size: 0.9em;">(提示：若模型較大請稍候 10-20 秒，或按下 Ctrl+Shift+R 重新整理)</p>
 
         <babylon id="basicViewer" 
                  model="113213069.glb" 
@@ -28,16 +24,13 @@
     </div>
 
     <script>
-        // 【雙重保險機制】
-        // 如果 5 秒後還在 Error 或沒反應，自動切換到 GitHub 遠端 Raw 連結
         window.onload = function() {
             const viewer = BabylonViewer.viewerManager.getViewerById('basicViewer');
-            
-            // 監聽錯誤事件，如果本地路徑 ./models/ 抓不到，改抓網址
+            // 如果本地抓不到，就抓 GitHub 的 Raw 網址 (我也幫你把網址裡的 models/ 拿掉了)
             viewer.onModelErrorObservable.add((error) => {
-                console.log("本地路徑載入失敗，切換為遠端連結...");
+                console.log("偵測到載入失敗，切換為遠端連結...");
                 viewer.loadModel({
-                    url: "https://raw.githubusercontent.com/s113213069-maker/project3/main/models/113213069.glb"
+                    url: "https://raw.githubusercontent.com/s113213069-maker/project3/main/113213069.glb"
                 });
             });
         };
